@@ -110,4 +110,39 @@ const avatars = (posters, users) => {
   
   fetchData();
   
+  // showLatestPosts function to get latest posts
+  const showLatestPosts = (data) => {
+    const { topic_list, users } = data;
+    const { topics } = topic_list;
+  
+    postsContainer.innerHTML = topics.map((item) => {
+      const {
+        id,
+        title,
+        views,
+        posts_count,
+        slug,
+        posters,
+        category_id,
+        bumped_at,
+      } = item;
+  
+      return `
+      <tr>
+        <td>
+          <a target="_blank" href="${forumTopicUrl}${slug}/${id}" class="post-title">${title}</a>
+  
+          ${forumCategory(category_id)}
+        </td>
+        <td>
+          <div class="avatar-container">
+            ${avatars(posters, users)}
+          </div>
+        </td>
+        <td>${posts_count - 1}</td>
+        <td>${viewCount(views)}</td>
+        <td>${timeAgo(bumped_at)}</td>
+      </tr>`;
+    }).join("");
+  };
   

@@ -16,3 +16,50 @@ const allCategories = {
   560: { category: "Backend Development", className: "backend" },
 };
 
+// Use const for functions that won't be reassigned
+const forumCategory = (id) => {
+  let selectedCategory = {};
+
+  if (allCategories.hasOwnProperty(id)) {
+    const { className, category } = allCategories[id];
+
+    selectedCategory.className = className;
+    selectedCategory.category = category;
+  } else {
+    selectedCategory.className = "general";
+    selectedCategory.category = "General";
+    selectedCategory.id = 1;
+  }
+
+  const url = `${forumCategoryUrl}${selectedCategory.className}/${id}`;
+  const linkText = selectedCategory.category;
+  const linkClass = `category ${selectedCategory.className}`;
+
+  return `<a href="${url}" class="${linkClass}" target="_blank">
+    ${linkText}
+  </a>`;
+};
+
+// function timeago
+const timeAgo = (postTime) => {
+  const currentTime = new Date();
+  const lastPost = new Date(postTime);
+
+  const timeDifference = currentTime - lastPost;
+  const msPerMinute = 1000 * 60;
+
+  const minutesAgo = Math.floor(timeDifference / msPerMinute);
+  const hoursAgo = Math.floor(minutesAgo / 60);
+  const daysAgo = Math.floor(hoursAgo / 24);
+
+  if (minutesAgo < 60) {
+    return `${minutesAgo}m ago`;
+  }
+
+  if (hoursAgo < 24) {
+    return `${hoursAgo}h ago`;
+  }
+
+  return `${daysAgo}d ago`;
+};
+
